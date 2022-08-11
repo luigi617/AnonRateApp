@@ -1,4 +1,4 @@
-# anon_rate_app
+# AnonRateApp
 
 A new Flutter project.
 
