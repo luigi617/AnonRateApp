@@ -1,4 +1,5 @@
 import 'package:anon_rate_app/post/post.dart';
+import 'package:anon_rate_app/rating/rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:anon_rate_app/constants.dart';
@@ -17,8 +18,8 @@ class _BottomNavigation extends State<BottomNavigation> {
 
 
   final List<Widget> _widgetOptions = <Widget>[
+    const RatingPage(),
     const PostPage(),
-    Container(),
     Container(),
     Container(),
   ];
