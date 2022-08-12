@@ -81,7 +81,7 @@ class Notification extends StatelessWidget{
           const SizedBox(height: 5,),
           Align(
             alignment: Alignment.centerRight,
-            child: Text("2 days ago"),
+            child: Text("2 days ago", style: TextStyle(fontSize: TextStyleFeature.textXSmallSize),),
           )
         ],
       )

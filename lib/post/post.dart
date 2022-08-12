@@ -20,6 +20,9 @@ class _PostPageState extends State<PostPage> {
       appBar: CustomAppBar(
         title: Text("Post", style: Theme.of(context).appBarTheme.titleTextStyle,),
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(onPressed: (){}, icon: Icon(Icons.add, color: Colors.black,))
+        ],
       ),
       body: SafeArea(
         child: ListView(
