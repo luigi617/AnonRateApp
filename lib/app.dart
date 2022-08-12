@@ -22,59 +22,17 @@ class _AppView extends State<AppView> {
         brightness: Brightness.light,
         primaryColor: Palette.blue,
         scaffoldBackgroundColor: Colors.white,
-        fontFamily: 'Cochin',
-        textTheme: TextTheme(
-          bodyText1: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize1,
-          ),
+        fontFamily: "OpenSans",
+        textTheme: const TextTheme(
           bodyText2: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize1,
-          ),
-          subtitle1: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize2,
-          ),
-          subtitle2: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize1,
-          ),
-          headline6: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize4,
-          ),
-          headline5: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize5,
-          ),
-          headline4: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize6,
-          ),
-          headline3: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize7,
-          ),
-          headline2: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize8,
-          ),
-          headline1: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize9,
-          ),
-          button: TextStyle(
-            color: Palette.darkGrey,
-            fontSize: TextStyleFeature.textSize3,
+            fontSize: TextStyleFeature.textNormalSize,
           ),
         ),
         appBarTheme: AppBarTheme(
-          centerTitle: true,
           titleTextStyle: TextStyle(
             color: Palette.darkGrey,
             fontWeight: TextStyleFeature.boldTextWeight,
-            fontSize: TextStyleFeature.textSize4,
+            fontSize: TextStyleFeature.textAppBar,
           ),
         )
       ),

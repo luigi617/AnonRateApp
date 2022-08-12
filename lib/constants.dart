@@ -16,13 +16,13 @@ class TextStyleFeature {
   static FontWeight mediumTextWeight = FontWeight.w500;
   static FontWeight boldTextWeight = FontWeight.w700;
 
-  static double textSize1 = 14;
-  static double textSize2 = 16;
-  static double textSize3 = 18;
-  static double textSize4 = 20;
-  static double textSize5 = 22;
-  static double textSize6 = 24;
-  static double textSize7 = 26;
-  static double textSize8 = 28;
-  static double textSize9 = 30;
+
+  static const double textXSmallSize = 12.0;
+  static const double textSmallSize = 14.0;
+  static const double textNormalSize = 16.0;
+  static const double textLargeSize = 18;
+  static const double textXLargeSize = 20;
+  static const double textAppBar = 22;
+
+
 }

@@ -18,7 +18,7 @@ class _PostPageState extends State<PostPage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: Text("Home", style: Theme.of(context).appBarTheme.titleTextStyle,),
+        title: Text("Post", style: Theme.of(context).appBarTheme.titleTextStyle,),
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
@@ -55,7 +55,7 @@ class Post extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(20),
       child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -73,7 +73,7 @@ class Post extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("username", style: TextStyle(fontSize: TextStyleFeature.textSize4),),
+                Text("username", style: TextStyle(fontSize: TextStyleFeature.textLargeSize),),
                 const SizedBox(height: 5,),
                 Text("post content"),
                 const SizedBox(height: 10,),

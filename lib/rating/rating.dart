@@ -18,7 +18,7 @@ class RatingPageState extends State<RatingPage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: Text("Home", style: Theme.of(context).appBarTheme.titleTextStyle,),
+        title: Text("AnonRate", style: Theme.of(context).appBarTheme.titleTextStyle,),
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
