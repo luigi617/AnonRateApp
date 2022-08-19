@@ -21,14 +21,14 @@ class _BottomNavigation extends State<BottomNavigation> {
 
 
   final List<Widget> _widgetOptions = <Widget>[
-    const RatingPage(),
     const PostPage(),
+    const RatingPage(),
     const NotificationPage(),
     const UserPage(),
   ];
   List<String> svgPath = <String>[
     'assets/icons/home.svg',
-    'assets/icons/earth.svg',
+    'assets/icons/search.svg',
     'assets/icons/comment.svg',
     'assets/icons/user.svg',
   ];

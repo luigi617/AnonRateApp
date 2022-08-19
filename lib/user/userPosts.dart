@@ -10,14 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:anon_rate_app/widget/appbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class PostPage extends StatefulWidget {
-  const PostPage({Key? key}) : super(key: key);
+class UserPostPage extends StatefulWidget {
+  const UserPostPage({required this.userId, Key? key}) : super(key: key);
+  final int userId;
 
   @override
-  State<PostPage> createState() => _PostPageState();
+  State<UserPostPage> createState() => _UserPostPageState();
 }
 
-class _PostPageState extends State<PostPage> {
+class _UserPostPageState extends State<UserPostPage> {
 
 
   @override
@@ -25,19 +26,12 @@ class _PostPageState extends State<PostPage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: Text("AnonRate", style: Theme.of(context).appBarTheme.titleTextStyle,),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: (){
-              Navigator.pushNamed(context, "/post/creation/");
-            },
-            icon: Icon(Icons.add_a_photo_outlined, color: Colors.black,))
-        ],
+        title: Container(),
+        automaticallyImplyLeading: true,
       ),
       body: SafeArea(
         child: FutureBuilder(
-          future: PostAPI.postList(1),
+          future: PostAPI.postList(1, userId: widget.userId),
           builder: ((context, AsyncSnapshot<List<Post>> snapshot) {
             if (snapshot.hasData){
               List<Post> posts = snapshot.data!;

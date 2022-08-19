@@ -53,6 +53,16 @@ dev_dependencies:
   cached_network_image: ^3.2.1
   # https://pub.dev/packages/flutter_rating_bar
   flutter_rating_bar: ^4.0.1
+  # https://pub.dev/packages/oauth2
+  oauth2: ^2.0.0
+  # https://pub.dev/packages/intl_phone_number_input
+  intl_phone_number_input: ^0.7.0+2
+  # https://pub.dev/packages/flutter_secure_storage
+  flutter_secure_storage: ^5.1.0
+  # https://pub.dev/packages/images_picker
+  images_picker: ^1.2.11
+  # https://pub.dev/packages/image_cropper
+  image_cropper: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -71,6 +81,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/icons/
+    - assets/images/
     - assets/fonts/Open_Sans/static/OpenSans/
     # - assets/images/
 
@@ -103,6 +114,10 @@ flutter:
         - asset: assets/fonts/Open_Sans/static/OpenSans/OpenSans-Regular.ttf
         - asset: assets/fonts/Open_Sans/static/OpenSans/OpenSans-Italic.ttf
           style: italic
+        - asset: assets/fonts/Open_Sans/static/OpenSans/OpenSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Open_Sans/static/OpenSans/OpenSans-SemiBold.ttf
+          weight: 600
         - asset: assets/fonts/Open_Sans/static/OpenSans/OpenSans-Bold.ttf
           weight: 700
   # For details regarding fonts from package dependencies,

@@ -1,6 +1,17 @@
+import 'package:anon_rate_app/api/request.dart';
+import 'package:anon_rate_app/authentication/logInUsername.dart';
+import 'package:anon_rate_app/authentication/signup/signupAccount.dart';
+import 'package:anon_rate_app/authentication/signup/signupUsername.dart';
+import 'package:anon_rate_app/authentication/signup/signupPassword.dart';
+import 'package:anon_rate_app/post/postCreation.dart';
+import 'package:anon_rate_app/rating/createRating.dart';
+import 'package:anon_rate_app/user/searchedUser.dart';
+import 'package:anon_rate_app/user/userPosts.dart';
+import 'package:anon_rate_app/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:anon_rate_app/bottomNavigationBar.dart';
 import 'package:anon_rate_app/constants.dart';
+
 
 class AppView extends StatefulWidget {
   const AppView({Key? key}) : super(key: key);
@@ -28,7 +39,7 @@ class _AppView extends State<AppView> {
             fontSize: TextStyleFeature.textNormalSize,
           ),
         ),
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
             color: Palette.darkGrey,
             fontWeight: TextStyleFeature.boldTextWeight,
@@ -37,13 +48,87 @@ class _AppView extends State<AppView> {
         )
       ),
       navigatorKey: _navigatorKey,
-      initialRoute: '/',
+      // initialRoute: '/',
+      home: FutureBuilder(
+        future: AccessToken.getToken(),
+        builder: (BuildContext context, snapshot){
+          if (snapshot.connectionState == ConnectionState.waiting) {
+              return const BottomNavigation(); // TODO
+          } else {
+            if (snapshot.hasData){
+              if (snapshot.data.toString().isNotEmpty){
+                return const BottomNavigation();
+              }
+            }
+            return const LogInUsernamePage();
+          }
+          
+        }
+      ),
       routes: {
-        '/': (context) => const BottomNavigation(),
+        '/home/': (context){
+          return const BottomNavigation();
+        } ,
+        '/post/creation/': (context){
+          return const PostCreationPage();
+        } ,
+        '/login/username/': (context){
+          return const LogInUsernamePage();
+        } ,
+        '/signup/username/': (context){
+          return const SignUpUsernamePage();
+        } ,
         
       },
       onGenerateRoute: (RouteSettings settings) {
         final Object? args = settings.arguments;
+        switch (settings.name) {
+          case '/signup/password/':
+              return MaterialPageRoute(
+                builder: (context) {
+                  return SignUpPasswordPage(
+                    username: mapGet(args, "username"),
+                  );
+                }
+              );
+          case '/signup/account/':
+              return MaterialPageRoute(
+                builder: (context) {
+                  return SignUpAccountPage(
+                    id: mapGet(args, "id"),
+                  );
+                }
+              );
+          case '/search/user/':
+              return MaterialPageRoute(
+                builder: (context) {
+                  return SearchedUserPage(
+                    userId: mapGet(args, "userId"),
+                    username: mapGet(args, "username"),
+                    avatar: mapGet(args, "avatar"),
+                    lastName: mapGet(args, "lastName"),
+                    firstName: mapGet(args, "firstName"),
+                  );
+                }
+              );
+          case '/rating-creation/':
+              return MaterialPageRoute(
+                builder: (context) {
+                  return RatingCreationPage(
+                    recepientId: mapGet(args, "recepientId"),
+                  );
+                }
+              );
+          case '/user/posts/':
+              return MaterialPageRoute(
+                builder: (context) {
+                  return UserPostPage(
+                    userId: mapGet(args, "userId"),
+                  );
+                }
+              );
+          default:
+        }
         return null;
       },
       onUnknownRoute: (RouteSettings settings) {
@@ -53,4 +138,6 @@ class _AppView extends State<AppView> {
       }
     );
   }
+
+  
 }

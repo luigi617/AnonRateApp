@@ -7,14 +7,16 @@ class Palette{
   static const Color grey = Color(0xff8C8C8C);
   static const Color darkGrey = Color(0xff333333);
   static const Color yellow = Color(0xffFDE64B);
+  static const Color usernameColor = Color.fromARGB(255, 9, 50, 113);
 }
 
 class TextStyleFeature {
 
 
-  static FontWeight normalTextWeight = FontWeight.w400;
-  static FontWeight mediumTextWeight = FontWeight.w500;
-  static FontWeight boldTextWeight = FontWeight.w700;
+  static const FontWeight normalTextWeight = FontWeight.w400;
+  static const FontWeight mediumTextWeight = FontWeight.w500;
+  static const FontWeight semiBoldTextWeight = FontWeight.w600;
+  static const FontWeight boldTextWeight = FontWeight.w700;
 
 
   static const double textXSmallSize = 12.0;

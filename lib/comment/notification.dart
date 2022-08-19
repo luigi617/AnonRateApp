@@ -1,4 +1,7 @@
+import 'package:anon_rate_app/api/rating.dart';
 import 'package:anon_rate_app/constants.dart';
+import 'package:anon_rate_app/model/rating.dart';
+import 'package:anon_rate_app/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:anon_rate_app/widget/appbar.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -22,21 +25,27 @@ class NotificationPageState extends State<NotificationPage> {
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
-        child: ListView(
-          children: [
-           
-
-            Notification(),
-            Divider(),
-            Notification(),
-            Divider(),
-            Notification(),
-            Divider(),
-            
-            
-          
-          ]
-        )
+        child: FutureBuilder(
+          future: RatingAPI.getRatingList(1),
+          builder: ((context, AsyncSnapshot<List<Rating>> snapshot) {
+            if (snapshot.hasData){
+              List<Rating> ratings = snapshot.data!;
+              return ListView.builder(
+                padding: const EdgeInsets.only(top: 10),
+                itemCount: ratings.length*2,
+                itemBuilder: (context, index) {
+                  if (index % 2 == 0){
+                    return Notification(ratings[index ~/ 2]);
+                  } else {
+                    return Divider();
+                  }
+                },
+              );
+            }
+            return Container();
+          }),
+        ),
+        
       ),
       
     );
@@ -45,22 +54,23 @@ class NotificationPageState extends State<NotificationPage> {
 }
 
 class Notification extends StatelessWidget{
-  const Notification({Key? key}) : super(key: key);
+  final Rating rating;
+  const Notification(this.rating, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
 
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Comment", style: TextStyle(fontSize: TextStyleFeature.textLargeSize),),
+              Text(rating.rating == 0 ? "Comment" : "Rating", style: TextStyle(fontSize: TextStyleFeature.textLargeSize),),
               RatingBar.builder(
-                initialRating: 3,
+                initialRating: rating.rating/20,
                 minRating: 1,
                 ignoreGestures: true,
                 direction: Axis.horizontal,
@@ -77,11 +87,11 @@ class Notification extends StatelessWidget{
             ],
           ),
           const SizedBox(height: 10,),
-          Text("comment content content content contentcontent contentcontent contentcontent contentcontent content"),
+          Text(rating.content),
           const SizedBox(height: 5,),
           Align(
             alignment: Alignment.centerRight,
-            child: Text("2 days ago", style: TextStyle(fontSize: TextStyleFeature.textXSmallSize),),
+            child: Text(dateCreatedParse(rating.dateCreated), style: TextStyle(fontSize: TextStyleFeature.textXSmallSize),),
           )
         ],
       )
