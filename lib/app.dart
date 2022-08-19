@@ -1,10 +1,11 @@
 import 'package:anon_rate_app/api/request.dart';
-import 'package:anon_rate_app/authentication/logInUsername.dart';
+import 'package:anon_rate_app/authentication/logIn.dart';
 import 'package:anon_rate_app/authentication/signup/signupAccount.dart';
 import 'package:anon_rate_app/authentication/signup/signupUsername.dart';
 import 'package:anon_rate_app/authentication/signup/signupPassword.dart';
 import 'package:anon_rate_app/post/postCreation.dart';
 import 'package:anon_rate_app/rating/createRating.dart';
+import 'package:anon_rate_app/setting/setting.dart';
 import 'package:anon_rate_app/user/searchedUser.dart';
 import 'package:anon_rate_app/user/userPosts.dart';
 import 'package:anon_rate_app/utils.dart';
@@ -53,7 +54,7 @@ class _AppView extends State<AppView> {
         future: AccessToken.getToken(),
         builder: (BuildContext context, snapshot){
           if (snapshot.connectionState == ConnectionState.waiting) {
-              return const BottomNavigation(); // TODO
+              return Container(); // TODO
           } else {
             if (snapshot.hasData){
               if (snapshot.data.toString().isNotEmpty){
@@ -69,6 +70,9 @@ class _AppView extends State<AppView> {
         '/home/': (context){
           return const BottomNavigation();
         } ,
+        '/login/': (context){
+          return const LogInUsernamePage();
+        } ,
         '/post/creation/': (context){
           return const PostCreationPage();
         } ,
@@ -77,6 +81,9 @@ class _AppView extends State<AppView> {
         } ,
         '/signup/username/': (context){
           return const SignUpUsernamePage();
+        } ,
+        '/setting/': (context){
+          return const SettingPage();
         } ,
         
       },

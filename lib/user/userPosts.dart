@@ -1,14 +1,10 @@
-import 'dart:ui';
 
 import 'package:anon_rate_app/api/post.dart';
 import 'package:anon_rate_app/constants.dart';
 import 'package:anon_rate_app/model/post.dart';
-import 'package:anon_rate_app/utils.dart';
 import 'package:anon_rate_app/widget/imagesDisplay.dart';
-import 'package:anon_rate_app/widget/userAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:anon_rate_app/widget/appbar.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class UserPostPage extends StatefulWidget {
   const UserPostPage({required this.userId, Key? key}) : super(key: key);
@@ -43,7 +39,7 @@ class _UserPostPageState extends State<UserPostPage> {
                   if (index % 2 == 0){
                     return PostInformation(posts[index~/2]);
                   } else {
-                    return const Divider();
+                    return const Divider(height: 0);
                   }
                 })
               );
@@ -71,27 +67,42 @@ class PostInformation extends StatelessWidget {
       child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.only(top: 0),
-              child: ClipRRect(
-              borderRadius: BorderRadius.circular(5.0),
-              child: UserAvatar(post.user.avatarThumbnail, height: 47, width: 47,),
-            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      DateTime.parse(post.dateCreated).day.toString(),
+                      style: const TextStyle(
+                        fontSize: TextStyleFeature.textXXXLargeSize,
+                        fontWeight: TextStyleFeature.semiBoldTextWeight
+                      ),
+                    ),
+                    const SizedBox(width: 3,),
+                    Text(
+                      getMonthName(DateTime.parse(post.dateCreated)),
+                      style: const TextStyle(
+                        fontSize: TextStyleFeature.textSmallSize,
+                        fontWeight: TextStyleFeature.mediumTextWeight
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  DateTime.parse(post.dateCreated).year.toString(),
+                  style: const TextStyle(
+                    fontSize: TextStyleFeature.textSmallSize,
+                    fontWeight: TextStyleFeature.mediumTextWeight
+                  ),
+                ),
+              ],
             ),
             const SizedBox(width: 10,),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    post.user.username,
-                    style: const TextStyle(
-                      // backgroundColor: Colors.amber,
-                      fontWeight: TextStyleFeature.mediumTextWeight,
-                      fontSize: TextStyleFeature.textLargeSize,
-                      color: Palette.usernameColor
-                    ),
-                  ),
                   
                   const SizedBox(height: 5,),
                   if (post.content.isNotEmpty)
@@ -100,16 +111,30 @@ class PostInformation extends StatelessWidget {
                   if (post.postImages.isNotEmpty)
                   PostImagesDisplay(post.postImages.map((e) => e.file).toList()),
                   const SizedBox(height: 10,),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(dateCreatedParse(post.dateCreated), style: const TextStyle(fontSize: TextStyleFeature.textXSmallSize),),
-                  )
+                  
                 ],
               )
             ),
           ],
         ),
     );
+  }
+  String getMonthName(DateTime date){
+    List<String> months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ]; 
+    return months[date.month - 1].substring(0, 3);
   }
 
   

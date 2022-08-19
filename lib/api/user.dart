@@ -22,4 +22,12 @@ class UserAPI{
     UserBase user = UserBase.fromJson(response.data);
     return user;
   }
+  static Future<Response> logIn(String username, String password)async{
+    Response response = await AccessToken.logInToken(username, password);
+    return response;
+  }
+  static Future<Response> logOut()async{
+    Response response = await AccessToken.revokeToken();
+    return response;
+  }
 }

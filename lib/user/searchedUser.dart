@@ -78,12 +78,12 @@ class SearchedUserPageState extends State<SearchedUserPage> {
             ),
             
             const SizedBox(height: 15,),
-            const Divider(),
+            const Divider(height: 0),
             const SizedBox(height: 15,),
             row(svgPath: 'assets/icons/earth.svg', name: "Posts", onTap: (){
               Navigator.pushNamed(context, "/user/posts/", arguments: {"userId": widget.userId});
             }),
-            const Divider(),
+            const Divider(height: 0),
             row(svgPath: 'assets/icons/rating.svg', name: "Ratings", onTap: (){}),
             const Divider(),
             actionRow(

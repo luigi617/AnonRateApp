@@ -1,9 +1,7 @@
-import 'package:anon_rate_app/api/request.dart';
+import 'package:anon_rate_app/api/user.dart';
 import 'package:anon_rate_app/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:anon_rate_app/widget/appbar.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:dio/dio.dart';
 
 class LogInUsernamePage extends StatefulWidget {
   const LogInUsernamePage({Key? key}) : super(key: key);
@@ -14,11 +12,11 @@ class LogInUsernamePage extends StatefulWidget {
 
 class _LogInUsernamePageState extends State<LogInUsernamePage> {
   final TextEditingController usernameController = TextEditingController();
+  String? usernameError;
   final TextEditingController passwordController = TextEditingController();
-
+  String? passwordError;
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       
       body: SafeArea(
@@ -36,12 +34,32 @@ class _LogInUsernamePageState extends State<LogInUsernamePage> {
                   Expanded(
                     child: TextFormField(
                       controller: usernameController,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        border: OutlineInputBorder(),
-                        hintText: "Username, email address"
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: usernameError == null ? const Color(0xFF000000) : Theme.of(context).errorColor,
+                            width: usernameError == null ? 0.4 : 1,
+                          )
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: usernameError == null ? const Color(0xFF000000) : Theme.of(context).errorColor,
+                            width: usernameError == null ? 0.4 : 1,
+                          )
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: usernameError == null ? const Color(0xFF000000) : Theme.of(context).errorColor,
+                            width: usernameError == null ? 0.4 : 1,
+                          )
+                        ),
+                        hintText: "Username, email address",
+                        // errorText: usernameError,
                       ),
                       validator: (String? value) {
+                        return null;
+                      
                       },
                     ),
                   ),
@@ -56,31 +74,34 @@ class _LogInUsernamePageState extends State<LogInUsernamePage> {
                       obscureText: true,
                       enableSuggestions: false,
                       autocorrect: false,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        border: OutlineInputBorder(),
-                        hintText: "Password"
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                        border: const OutlineInputBorder(),
+                        hintText: "Password",
+                        errorText: passwordError,
+                        // errorBorder: 
                       ),
                       validator: (String? value) {
                         if (value.toString().trim().isEmpty) {
                           return 'Password is required';
                         }
+                        return null;
                       },
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Align(
                 alignment: Alignment.centerRight,
                 child: InkWell(
                   onTap: (){
                     
                   },
-                  child: Text("Forgotten password?", style: TextStyle(color: Palette.blue),)
+                  child: const Text("Forgotten password?", style: TextStyle(color: Palette.blue),)
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
 
               Center(
                 child: Container(
@@ -91,8 +112,22 @@ class _LogInUsernamePageState extends State<LogInUsernamePage> {
                       padding: EdgeInsets.symmetric(horizontal:10),
                       child: Text('Log In', style: TextStyle(fontSize: TextStyleFeature.textLargeSize),)
                     ),
-                    onPressed: () {
-                      AccessToken.logInToken(usernameController.text, passwordController.text);
+                    onPressed: () async {
+                      try {
+                        await UserAPI.logIn(usernameController.text, passwordController.text);
+                      } on DioError catch(e){
+                        if (e.response != null) {
+                          if (e.response?.data["error"] == "invalid_grant" || e.response?.data["error"] == "invalid_request"){
+                            setState(() {
+                              usernameError = "";
+                              passwordError = e.response?.data["error_description"];
+                            });
+                          }
+                        }
+                        return;
+                      }
+
+                      // AccessToken.logInToken(usernameController.text, passwordController.text);
                       Navigator.popAndPushNamed(context, "/home/");
                     },
                   )
@@ -116,12 +151,12 @@ class _LogInUsernamePageState extends State<LogInUsernamePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Do not have an account? "),
+                  const Text("Do not have an account? "),
                   InkWell(
                     onTap: (){
                       Navigator.pushNamed(context, "/signup/username/");
                     },
-                    child: Text("Sign up", style: TextStyle(color: Palette.blue),)
+                    child: const Text("Sign up", style: TextStyle(color: Palette.blue),)
                   ),
                 ]
               ),

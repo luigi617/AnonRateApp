@@ -4,7 +4,6 @@ import 'package:anon_rate_app/model/user.dart';
 import 'package:anon_rate_app/widget/userAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:anon_rate_app/widget/appbar.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class UserPage extends StatefulWidget {
@@ -50,7 +49,7 @@ class UserPageState extends State<UserPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(user.username, style: TextStyle(fontSize: TextStyleFeature.textLargeSize),),
+                            Text(user.username, style: const TextStyle(fontSize: TextStyleFeature.textLargeSize),),
                             const SizedBox(height: 10,),
                             Text("${user.lastName} ${user.firstName}"),
                           ],
@@ -75,11 +74,13 @@ class UserPageState extends State<UserPage> {
                   row(svgPath: 'assets/icons/earth.svg', name: "Posts", onTap: (){
                     Navigator.pushNamed(context, "/user/posts/", arguments: {"userId": user.id});
                   }),
-                  const Divider(),
+                  const Divider(height: 0),
                   row(svgPath: 'assets/icons/rating.svg', name: "Ratings", onTap: (){}),
-                  const Divider(),
-                  row(svgPath: 'assets/icons/setting.svg', name: "Setting", onTap: (){}),
-                  const Divider(),
+                  const Divider(height: 0),
+                  row(svgPath: 'assets/icons/setting.svg', name: "Setting", onTap: (){
+                    Navigator.pushNamed(context, "/setting/");
+                  }),
+                  const Divider(height: 0),
                 ]
               );
             }

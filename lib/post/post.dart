@@ -49,7 +49,7 @@ class _PostPageState extends State<PostPage> {
                   if (index % 2 == 0){
                     return PostInformation(posts[index~/2]);
                   } else {
-                    return const Divider();
+                    return const Divider(height: 0);
                   }
                 })
               );

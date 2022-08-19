@@ -1,5 +1,4 @@
 import 'package:anon_rate_app/api/request.dart';
-import 'package:anon_rate_app/model/post.dart';
 import 'package:anon_rate_app/model/rating.dart';
 import 'package:dio/dio.dart';
 

@@ -1,8 +1,8 @@
 import 'package:anon_rate_app/api/request.dart';
+import 'package:anon_rate_app/api/user.dart';
 import 'package:anon_rate_app/constants.dart';
 import 'package:anon_rate_app/widget/appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:dio/dio.dart';
 
 class SignUpPasswordPage extends StatefulWidget {
@@ -35,8 +35,8 @@ class SignUpPasswordPageState extends State<SignUpPasswordPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Center(child:Text("Set the password", style: TextStyle(fontSize: TextStyleFeature.textLargeSize),)),
-              SizedBox(height: 50,),
+              const Center(child:Text("Set the password", style: TextStyle(fontSize: TextStyleFeature.textLargeSize),)),
+              const SizedBox(height: 50,),
               Row(
                 children: [
                   Expanded(
@@ -51,6 +51,8 @@ class SignUpPasswordPageState extends State<SignUpPasswordPage> {
                         hintText: "Password"
                       ),
                       validator: (String? value) {
+                        return null;
+                      
                       },
                     ),
                   ),
@@ -74,7 +76,9 @@ class SignUpPasswordPageState extends State<SignUpPasswordPage> {
                             "password": passwordController.text,
                           }
                         );
-                        AccessToken.logInToken(widget.username, passwordController.text);
+                        // AccessToken.logInToken(widget.username, passwordController.text);
+                        UserAPI.logIn(widget.username, passwordController.text);
+
                         Navigator.pushNamed(context, "/signup/account/", arguments: {"id": response.data["id"]});
                       },
                     )

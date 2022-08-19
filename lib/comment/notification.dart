@@ -37,7 +37,7 @@ class NotificationPageState extends State<NotificationPage> {
                   if (index % 2 == 0){
                     return Notification(ratings[index ~/ 2]);
                   } else {
-                    return Divider();
+                    return const Divider(height: 0);
                   }
                 },
               );

@@ -3,11 +3,8 @@ import 'dart:io';
 import 'package:anon_rate_app/api/request.dart';
 import 'package:anon_rate_app/constants.dart';
 import 'package:anon_rate_app/widget/ImagePickerModal.dart';
-import 'package:anon_rate_app/widget/appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:dio/dio.dart';
-import "package:images_picker/images_picker.dart";
 import 'package:cached_network_image/cached_network_image.dart';
 
 class SignUpAccountPage extends StatefulWidget {
@@ -82,6 +79,8 @@ class SignUpAccountPageState extends State<SignUpAccountPage> {
                         hintText: "Last name"
                       ),
                       validator: (String? value) {
+                        return null;
+                      
                       },
                     ),
                   ),
@@ -95,6 +94,8 @@ class SignUpAccountPageState extends State<SignUpAccountPage> {
                         hintText: "First name"
                       ),
                       validator: (String? value) {
+                        return null;
+                      
                       },
                     ),
                   ),
@@ -112,6 +113,8 @@ class SignUpAccountPageState extends State<SignUpAccountPage> {
                         hintText: "Email"
                       ),
                       validator: (String? value) {
+                        return null;
+                      
                       },
                     ),
                   ),
@@ -132,7 +135,7 @@ class SignUpAccountPageState extends State<SignUpAccountPage> {
                           "first_name": firstNameController.text,
                           "avatar": await MultipartFile.fromFile(avatar!.path),
                         });
-                        Response response = await httpUtil().put(
+                        await httpUtil().put(
                           "/user/profile/${widget.id}/",
                           data: formData
                         );

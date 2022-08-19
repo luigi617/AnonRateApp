@@ -95,7 +95,7 @@ Future imagePickerModal(BuildContext context, {bool avatar = false}){
             
           },
         ),
-        Divider(thickness: 1,),
+        const Divider(thickness: 1,),
         ListTile(
           leading: const Icon(Icons.cancel),
           title: const Text('Cancel'),
@@ -142,7 +142,7 @@ Future multipleImagesPickerModal(BuildContext context, {imageCount = 9}){
             
           },
         ),
-        Divider(thickness: 1,),
+        const Divider(thickness: 1,),
         ListTile(
           leading: const Icon(Icons.cancel),
           title: const Text('Cancel'),

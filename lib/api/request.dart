@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as secureStorage;
-import 'package:oauth2/oauth2.dart' as oauth2;
+
 
 var storage = const secureStorage.FlutterSecureStorage();
 
@@ -25,14 +23,20 @@ class Url {
 }
 
 class AccessToken {
-  static Future logInToken(String username, String password) async {
+  static Future<Response> logInToken(String username, String password) async {
    
-    final Uri authorizationEndpoint = Uri.parse('${Url.baseUrl}/o/token/');
-    oauth2.Client client = await oauth2.resourceOwnerPasswordGrant(authorizationEndpoint, username, password,
-        identifier: Oauth.identifier, secret: Oauth.secret);
+    FormData data = FormData.fromMap(<String, dynamic>{
+      "grant_type": "password",
+      "client_id": Oauth.identifier,
+      "client_secret": Oauth.secret,
+      "username": username,
+      "password": password,
+    });
+    Response response = await httpUtil(version: 'base').post("/o/token/", data: data);
+    storage.write(key: "accessToken", value: response.data["access_token"]);
+    storage.write(key: "refreshToken", value: response.data["refresh_token"]);
 
-    storage.write(key: "accessToken", value: client.credentials.accessToken);
-    storage.write(key: "refreshToken", value: client.credentials.refreshToken);
+    return response;
   }
   static Future<String> getToken() async {
     String? token = await storage.read(key: "accessToken");
@@ -42,9 +46,20 @@ class AccessToken {
     return '';
   }
 
+  static Future<Response> revokeToken() async {
+    final String? refreshToken = await storage.read(key: 'accessToken');
+    var data = FormData.fromMap(<String, dynamic>{
+      "token": refreshToken,
+      "client_id": Oauth.identifier,
+      "client_secret": Oauth.secret,
+    });
+    Response response = await httpUtil(version: 'base').post("/o/revoke_token/", data: data);
+    storage.delete(key: "accessToken");
+    storage.delete(key: "refreshToken");
+    return response;
+  }
   static Future<String?> refreshToken() async {
     final String? refreshToken = await storage.read(key: 'refreshToken');
-    print(refreshToken);
     var data = FormData.fromMap(<String, dynamic>{
       "grant_type": "refresh_token",
       "refresh_token": refreshToken,
@@ -71,7 +86,7 @@ class AccessToken {
 }
 
 Dio httpUtil({String version = 'api', Function? logOut}) {
-  Dio dio = new Dio();
+  Dio dio = Dio();
   switch (version) {
     case 'api':
       dio.options.baseUrl = Url.api;
@@ -84,9 +99,13 @@ Dio httpUtil({String version = 'api', Function? logOut}) {
   dio.interceptors.add(QueuedInterceptorsWrapper(
       onRequest: (RequestOptions requestOptions, RequestInterceptorHandler requestInterceptorHandler) async {
     requestOptions.headers["Authorization"] = await AccessToken.getToken();
+    // print(requestOptions.headers["Authorization"]);
     return requestInterceptorHandler.next(requestOptions); //continue
   }, onError: (DioError error, ErrorInterceptorHandler errorInterceptorHandler) async {
-    print(error.message);
+    // print(error.message);
+    // print(error.error);
+    // print(error.response?.data.toString());
+    // print(error.response?.statusMessage);
     if (error.response?.statusCode == 403 || error.response?.statusCode == 401) {
       String? token = await AccessToken.refreshToken();
       if (token == null) {

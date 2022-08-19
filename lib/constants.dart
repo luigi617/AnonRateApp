@@ -24,6 +24,9 @@ class TextStyleFeature {
   static const double textNormalSize = 16.0;
   static const double textLargeSize = 18;
   static const double textXLargeSize = 20;
+  static const double textXXLargeSize = 22;
+  static const double textXXXLargeSize = 24;
+  static const double textXXXXLargeSize = 26;
   static const double textAppBar = 22;
 
 
